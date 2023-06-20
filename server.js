@@ -17,7 +17,7 @@ const aliases = {
 }
 const genesis = null
 
-genesisAccount(pubkey, username){
+function genesisAccount(pubkey, username){
   const key = ec.keyFromPublic(pubkey, "hex")
   const time = Date.now()
   const sign = key.sign(pubkey+amount+time).toDER("hex")
@@ -37,7 +37,7 @@ genesisAccount(pubkey, username){
   }
 }
 
-account(pubkey, username){
+function account(pubkey, username){
   const key = ec.keyFromPublic(pubkey, "hex")
   const time = Date.now()
   const sign = key.sign(pubkey+amount+time).toDER("hex")
@@ -50,14 +50,14 @@ account(pubkey, username){
   }
 }
 
-digest(user){
+function digest(user){
   const pub = aliases[user]
   user = users[user]
 
   users[pub] = bankkey.sign(user.owner+user.amount+user.time).toDER("hex")
 }
 
-verify(user){
+function verify(user){
   const pub = aliases[user]
   user = users[user]
 
@@ -67,7 +67,7 @@ verify(user){
   return key.verify(user.owner+user.amount+user.time, user.signature)
 }
 
-validPrev(prev, pubkey){
+function validPrev(prev, pubkey){
   const pub = aliases[prev.with]
 
   const from = prev.amount >= 0
@@ -83,7 +83,7 @@ validPrev(prev, pubkey){
   return key.verify(pubkey+pub+prev.amount, prev.signature)
 }
 
-transfer(from, to, amount, signature){
+function transfer(from, to, amount, signature){
   const userFrom = users[aliases[from]]
   const userTo = users[aliases[to]]
 
